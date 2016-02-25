@@ -1,0 +1,54 @@
+create table PATIENT (
+
+PatientID NUMBER(9),
+Last_Name  VARCHAR(15),
+First_Name VARCHAR(15),
+Date_Of_Birth VARCHAR(10),
+Gender VARCHAR(3),
+AddressID NUMBER(9)
+);
+
+create table VACCINE (
+
+VaccineID NUMBER(9),
+Disease VARCHAR(30),
+Number_Of_Shots NUMBER(10),
+Manufacturer VARCHAR(30),
+Comments VARCHAR(120)
+
+);
+
+create table VACCINATOR (
+
+VaccinatorID NUMBER(9),
+Location VARCHAR(100),
+Name VARCHAR(30),
+AddressID NUMBER(9)
+
+);
+
+create table VACCINATION (
+
+VaccinationID NUMBER(9),
+PatientID NUMBER(9),
+VaccineID NUMBER(9),
+VaccinatorID NUMBER(9),
+Date_Taken VARCHAR(10),
+Route VARCHAR(20),
+Site VARCHAR(20),
+Number_In_Series NUMBER(5),
+Date_Of_Next VARCHAR(10)
+
+);
+
+create table ADDRESS (
+
+AddressID NUMBER(9),
+Street VARCHAR(20),
+City VARCHAR(20),
+State VARCHAR(2),
+Country VARCHAR(20),
+Zip VARCHAR(10)
+
+);
+
