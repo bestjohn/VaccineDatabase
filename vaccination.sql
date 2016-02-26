@@ -1,0 +1,14 @@
+create table VACCINATION (
+
+VaccinationID NUMBER(9) PRIMARY KEY NOT NULL,
+PatientID NUMBER(9) NOT NULL,
+VaccineID NUMBER(9) NOT NULL,
+VaccinatorID NUMBER(9) NOT NULL,
+Date_Taken VARCHAR2(10) NOT NULL,
+Route VARCHAR2(20) NOT NULL,
+Site VARCHAR2(20) NOT NULL,
+Number_In_Series NUMBER(5) NOT NULL,
+Date_Of_Next VARCHAR2(10) NOT NULL,
+
+Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID)
+);
