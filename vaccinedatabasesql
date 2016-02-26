@@ -1,54 +1,82 @@
 create table PATIENT (
 
-PatientID NUMBER(9),
-Last_Name  VARCHAR(15),
-First_Name VARCHAR(15),
-Date_Of_Birth VARCHAR(10),
-Gender VARCHAR(3),
-AddressID NUMBER(9)
+PatientID NUMBER(9) PRIMARY KEY NOT NULL,
+Last_Name  VARCHAR2(15) NOT NULL,
+First_Name VARCHAR2(15) NOT NULL,
+Date_Of_Birth VARCHAR2(10) NOT NULL,
+Gender VARCHAR2(10) NOT NULL,
+AddressID NUMBER(9) NOT NULL,
+
+Constraint PATIENT_FK FOREIGN KEY (AddressID) REFERENCES ADDRESS(AddressID)
 );
+
+INSERT into PATIENT values
+(1, 'Morgan', 'Joe', '05-20-1989', 'Male', 1)
+;
+
+select date_of_birth
+from patient;
+
+
+--drop table PATIENT;
+--purge table PATIENT;
 
 create table VACCINE (
 
-VaccineID NUMBER(9),
-Disease VARCHAR(30),
-Number_Of_Shots NUMBER(10),
-Manufacturer VARCHAR(30),
-Comments VARCHAR(120)
+VaccineID NUMBER(9) PRIMARY KEY NOT NULL,
+Disease VARCHAR2(30) NOT NULL,
+Number_Of_Shots NUMBER(10) NOT NULL,
+Manufacturer VARCHAR2(30) NOT NULL,
+Comments VARCHAR2(120)
 
 );
+
+INSERT into VACCINE values
+(1, 'Tuberculosis', 3, 'Someone', 'Always take after midnight')
+;
 
 create table VACCINATOR (
 
-VaccinatorID NUMBER(9),
-Location VARCHAR(100),
-Name VARCHAR(30),
-AddressID NUMBER(9)
+Location_Name VARCHAR2(100) NOT NULL,
+AddressID NUMBER(9) NOT NULL,
 
+Constraint VACCINATOR_PK PRIMARY KEY (Location_Name, AddressID),
+Constraint VACCINATOR_FK FOREIGN KEY (AddressID) REFERENCES ADDRESS(AddressID)
 );
+
+INSERT into VACCINATOR values
+(1, 'General Hospital', 1)
+;
 
 create table VACCINATION (
 
-VaccinationID NUMBER(9),
-PatientID NUMBER(9),
-VaccineID NUMBER(9),
-VaccinatorID NUMBER(9),
-Date_Taken VARCHAR(10),
-Route VARCHAR(20),
-Site VARCHAR(20),
-Number_In_Series NUMBER(5),
-Date_Of_Next VARCHAR(10)
+VaccinationID NUMBER(9) PRIMARY KEY NOT NULL,
+PatientID NUMBER(9) NOT NULL,
+VaccineID NUMBER(9) NOT NULL,
+VaccinatorID NUMBER(9) NOT NULL,
+Date_Taken VARCHAR2(10) NOT NULL,
+Route VARCHAR2(20) NOT NULL,
+Site VARCHAR2(20) NOT NULL,
+Number_In_Series NUMBER(5) NOT NULL,
+Date_Of_Next VARCHAR2(10) NOT NULL,
 
+Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID)
 );
 
 create table ADDRESS (
 
-AddressID NUMBER(9),
-Street VARCHAR(20),
-City VARCHAR(20),
-State VARCHAR(2),
-Country VARCHAR(20),
-Zip VARCHAR(10)
+AddressID NUMBER(9) PRIMARY KEY NOT NULL,
+Street VARCHAR2(20) NOT NULL,
+Unit_Number VARCHAR(5) NOT NULL,
+City VARCHAR2(20) NOT NULL,
+State VARCHAR2(2) NOT NULL,
+Country VARCHAR2(20) NOT NULL,
+Zip VARCHAR2(10) NOT NULL
 
 );
+
+
+--view for patient, disease, vaccination
+--view for 
+
 
