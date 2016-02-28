@@ -1,6 +1,6 @@
 create table VDB_ADDRESS (
 
-AddressID NUMBER(9) PRIMARY KEY NOT NULL,
+AddressID NUMBER(9) PRIMARY KEY,
 Street VARCHAR2(120) NOT NULL,
 Unit_Number VARCHAR(5),
 City VARCHAR2(20) NOT NULL,
@@ -10,8 +10,22 @@ Zip VARCHAR2(10) NOT NULL
 
 );
 
+drop sequence seq_id;
+CREATE SEQUENCE SEQ_ID
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE;
+
+
+drop trigger address_trigger;
+CREATE TRIGGER ADDRESS_TRIGGER
+BEFORE INSERT ON VDB_ADDRESS
+FOR EACH ROW
+BEGIN SELECT SEQ_ID.NEXTVAL INTO :NEW.AddressID FROM DUAL;
+END;
+
 INSERT into VDB_ADDRESS values 
-(1, 
+(NULL, 
 '532 South Parkway', 
 NULL, 
 'Indianapolis',
@@ -20,7 +34,7 @@ NULL,
 '46240');
 
 INSERT into VDB_ADDRESS values 
-(2, 
+(NULL, 
 '240 Jordan Dr', 
 NULL, 
 'Indianapolis',
@@ -28,9 +42,8 @@ NULL,
 'US', 
 '46240');
 
-
 INSERT into VDB_ADDRESS values
-(15,
+(NULL,
 '1100 Express Dr',
 NULL,
 'INDIANAPOLIS',
@@ -39,17 +52,7 @@ NULL,
 '46204'
 );
 
-
-drop view vw_vaccination;
-
-create view vw_vaccination as
-select p.first_name, p.last_name,
-v.vaccine, 
-vtr.location_name,
-vnt.date_taken
-from patient p, vdb_address a, vaccine v, vaccinator vtr, vaccination vcnt
-where 
-;
+select * from vdb_address;
 
 
 

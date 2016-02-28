@@ -1,21 +1,32 @@
 create table VACCINE (
 
-VaccineID NUMBER(9) PRIMARY KEY NOT NULL,
+VaccineID NUMBER(9) PRIMARY KEY,
 Disease VARCHAR2(30) NOT NULL,
 Manufacturer VARCHAR2(30) NOT NULL,
 Comments VARCHAR2(120) NULL
 
 );
 
+CREATE SEQUENCE SEQ_VACCINE
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE;
+
+CREATE TRIGGER VACCINE_TRIGGER
+BEFORE INSERT ON VACCINE
+FOR EACH ROW
+BEGIN SELECT SEQ_VACCINE.NEXTVAL INTO :NEW.VaccineID FROM DUAL;
+END;
+
 INSERT into VACCINE values
-(1, 
+(NULL, 
 'Hepatitis A', 
 'GSK Vaccines', 
 'Pain at site of injection occurs in 15% of children and half of adults'
 );
 
 INSERT into VACCINE values
-(2, 
+(NULL, 
 'Hepatitis B', 
 'GSK Vaccines', 
 'Pain at site of injection occurs in 15% of children and half of adults'
@@ -29,9 +40,12 @@ from vaccine v, vaccination vtn
 where v.vaccineid = vtn.vaccineid
 ;
 
+select RPAD(disease,10,'.') as disease, route, site 
+from vw_vaccine;
 
 
 
 
---drop table VACCINE;
---purge table VACCINE;
+
+drop table VACCINE;
+purge table VACCINE;
