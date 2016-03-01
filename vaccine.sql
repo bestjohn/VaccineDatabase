@@ -32,6 +32,14 @@ INSERT into VACCINE values
 'Pain at site of injection occurs in 15% of children and half of adults'
 );
 
+--More Diseases:
+--Tuberculosis
+--PID
+--Polio
+--Mumps
+--Measles
+--Small Pox
+--Zika virus (fingers crossed!)
 
 drop view vw_vaccine;
 create view vw_vaccine as
