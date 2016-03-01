@@ -9,6 +9,7 @@ Route VARCHAR2(20) NOT NULL,
 Site VARCHAR2(20) NOT NULL,
 Date_Of_Next DATE,
 Reason VARCHAR2 (200),
+--sample reasons include newborns, college students, traveling abroad, outbreaks, safety prevention
 
 Constraint VACCINATION_PK PRIMARY KEY (VaccinationID)
 Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID)
