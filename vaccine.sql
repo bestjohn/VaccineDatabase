@@ -2,7 +2,10 @@ create table VACCINE (
 
 VaccineID NUMBER(9) PRIMARY KEY,
 Disease VARCHAR2(30) NOT NULL,
+Trade_Name VARCHAR2(20) NOT NULL,
 Manufacturer VARCHAR2(30) NOT NULL,
+Type VARCHAR(20),
+Route VARCHAR(20),
 Comments VARCHAR2(120) NULL
 
 );
