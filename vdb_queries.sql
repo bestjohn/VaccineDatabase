@@ -42,11 +42,12 @@ from vw_vaccine;
 --two date functions
 --to_date function, months_between function (+ round func)
 
---decode function
+--decode function (if, then)
 
 
 --advanced queries using
 --groupby and having,subqueries,decode,join and outer join
+--group locations and diseases having same disease vaccinations AND month/year, select location, disease, date, and reason
 
 --queries to insert, delete, or update data using
 --savepoints
@@ -58,8 +59,11 @@ from vw_vaccine;
 --merge
 
 --unique and check constraint
+--Vaccination table
 
 --table from another table
+--Create table containing disease, reasons, comments
+--patient, age, disease, location, reason
 
 --index
 
