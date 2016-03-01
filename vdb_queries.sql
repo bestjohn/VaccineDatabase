@@ -29,12 +29,21 @@ where p.patientid = vtn.patientid AND vtn.vaccineid = v.vaccineid
 
 
 --two string functions
+--RPAD function
+select disease, CONCAT(route, site) as Administration
+from vw_vaccine;
 
 --two number functions
+--select MIN/MAX date_of_next for each vaccine of a patient
+select patient, disease, MIN(date_of_next), MAX(date_of_next);
+select disease, NVL(route, IM) as route, NVL(site, UA) as site
+from vw_vaccine;
 
 --two date functions
+--to_date function, months_between function (+ round func)
 
 --decode function
+
 
 --advanced queries using
 --groupby and having,subqueries,decode,join and outer join
