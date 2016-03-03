@@ -1,29 +1,46 @@
 create table VACCINATOR (
 
+VaccinatorID NUMBER(9) PRIMARY KEY NOT NULL,
 Location_Name VARCHAR2(100) NOT NULL,
 AddressID NUMBER(9) NOT NULL,
 
-Constraint VACCINATOR_PK PRIMARY KEY (Location_Name, AddressID),
+
 Constraint VACCINATOR_FK FOREIGN KEY (AddressID) REFERENCES VDB_ADDRESS(AddressID) --needs address id created first
 );
 
-INSERT into VACCINATOR values
-('General Hospital', 15)
+CREATE SEQUENCE vaccinator_seq
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE;
+
+CREATE TRIGGER VACCINATOR_TRIGGER
+BEFORE INSERT ON VACCINATOR
+FOR EACH ROW
+BEGIN SELECT VACCINATOR_SEQ.NEXTVAL INTO :NEW.VACCINATORID FROM DUAL;
+END;
+
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'General Hospital',15)
 ;
 
-
-drop view vw_vaccinator;
-create view vw_vaccinator as
-select vtr.location_name, a.street, a.city, a.state, a.country, a.zip
-from vaccinator vtr, vdb_address a
-where vtr.addressid = a.addressid
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'IU Health Methodist Hospital', address_seq.NEXTVAL)
 ;
 
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'Community Hospital North', address_seq.NEXTVAL)
+;
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'Med Check Urgent Care', address_seq.NEXTVAL)
+;
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'Peyton Manning Childrens Hospital', address_seq.NEXTVAL)
+;
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'Riley Hospital for Children at Indiana University Health', address_seq.NEXTVAL)
+;
+INSERT into VACCINATOR (Location_Name, AddressID)
+values (NULL,'St. Vincent Womens Hospital', address_seq.NEXTVAL)
+;
 
-
-
-
-
-
-drop table VACCINATOR;
-purge table VACCINATOR;
+select * from vaccinator;

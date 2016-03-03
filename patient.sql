@@ -5,6 +5,7 @@ First_Name VARCHAR2(15) NOT NULL,
 Date_Of_Birth DATE,
 Gender VARCHAR2(10) NOT NULL,
 AddressID NUMBER(9) NOT NULL,
+
 Constraint PATIENT_FK 
 FOREIGN KEY (AddressID) 
 REFERENCES VDB_ADDRESS(AddressID) 
@@ -43,28 +44,3 @@ TO_DATE('01-AUGUST-1970', 'DD-MON-YYYY'),
 ;
 
 select * from PATIENT;
-
-drop view vw_patient;
-create view vw_patient as
-select p.first_name, p.last_name, a.street, a.city, a.state
-from patient p, vdb_address a
-where p.addressid = a.addressid
-;
-
-select * from vw_patient;
-
-
-
-
-
-
-
-
-
-
-
-
-drop table PATIENT;
-purge table PATIENT;
-drop sequence seq_patient;
-drop trigger trigger_id;

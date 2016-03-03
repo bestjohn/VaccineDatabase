@@ -10,8 +10,8 @@ Zip VARCHAR2(10) NOT NULL
 
 );
 
-drop sequence seq_id;
-CREATE SEQUENCE SEQ_ID
+drop sequence address_seq;
+CREATE SEQUENCE address_seq
 START WITH 1
 INCREMENT BY 1
 NOMAXVALUE;
@@ -21,7 +21,7 @@ drop trigger address_trigger;
 CREATE TRIGGER ADDRESS_TRIGGER
 BEFORE INSERT ON VDB_ADDRESS
 FOR EACH ROW
-BEGIN SELECT SEQ_ID.NEXTVAL INTO :NEW.AddressID FROM DUAL;
+BEGIN SELECT address_seq.NEXTVAL INTO :NEW.AddressID FROM DUAL;
 END;
 
 INSERT into VDB_ADDRESS values 
@@ -44,6 +44,46 @@ NULL,
 
 INSERT into VDB_ADDRESS values
 (NULL,
+'42 Riverdale St',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46204'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'150 Hancock Ct',
+NULL,
+'Bloomington',
+'IN',
+'US',
+'47401'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'23 Hunter Ave',
+NULL,
+'Bloomington',
+'IN',
+'US',
+'47401'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'270 Jeremiad Dr',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46220'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
 '1100 Express Dr',
 NULL,
 'INDIANAPOLIS',
@@ -52,12 +92,44 @@ NULL,
 '46204'
 );
 
+INSERT into VDB_ADDRESS values
+(NULL,
+'520 South Medical Dr',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46219'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'190 Avril Ln',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46224'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'77 Fortune Rd',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46224'
+);
+
+INSERT into VDB_ADDRESS values
+(NULL,
+'287 Opportunity St',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46224'
+);
 select * from vdb_address;
 
-
-
-
-
-
-drop table VDB_ADDRESS;
-purge table VDB_ADDRESS;

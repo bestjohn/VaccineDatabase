@@ -5,16 +5,17 @@ PatientID NUMBER(9) NOT NULL,
 VaccineID NUMBER(9) NOT NULL,
 VaccinatorID NUMBER(9) NOT NULL,
 Date_Taken DATE,
-Route VARCHAR2(20) NOT NULL,
 Site VARCHAR2(20) NOT NULL,
 Date_Of_Next DATE,
 Reason VARCHAR2 (200),
 --sample reasons include newborns, college students, traveling abroad, outbreaks, safety prevention
 
-Constraint VACCINATION_PK PRIMARY KEY (VaccinationID)
-Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID)
-CHECK VACCINATION_PK and VACCINATION_UQ NOT NULL
+Constraint VACCINATION_PK PRIMARY KEY (VaccinationID),
+Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID),
+CHECK (VACCINATION_PK != NULL and VACCINATION_UQ != NULL)
 );
+
+--DECODE(Site, 'UA', 'Upper arm', 'RA', 'Right arm', 'LA', 'Left arm', 'RT', 'Right thigh', 'LT', 'Left thigh');
 
 CREATE SEQUENCE SEQ_VACCINATION
 START WITH 1
@@ -34,7 +35,6 @@ NULL,
 1,
 15,
 TO_DATE('23-MAY-2005', 'DD-MON-YYYY'),
-'IM',
 'UA',
 TO_DATE('23-MAY-2020', 'DD-MON-YYYY')
 );
@@ -46,7 +46,6 @@ NULL,
 2,
 15,
 TO_DATE('23-MAY-2005', 'DD-MON-YYYY'),
-'IM',
 'UA',
 TO_DATE('23-MAY-2020', 'DD-MON-YYYY')
 );
@@ -58,20 +57,8 @@ NULL,
 1,
 15,
 TO_DATE('23-MAY-2005', 'DD-MON-YYYY'),
-'IM',
 'UA',
 TO_DATE('23-MAY-2020', 'DD-MON-YYYY')
 );
 
-drop view vw_vaccination;
-create view vw_vaccination as
-select first_name, last_name, disease, date_taken, route, site, date_of_next
-from patient p, vaccine v, vaccination vtn
-where p.patientid = vtn.patientid AND vtn.vaccineid = v.vaccineid
-;
-
-select last_name, first_name, disease, date_taken, date_of_next, MONTHS_BETWEEN(DATE_OF_NEXT, DATE_TAKEN) as months
-from vw_vaccination;
-
-drop table VACCINATION;
-purge table VACCINATION;
+select * from vaccination;
