@@ -24,7 +24,7 @@ where v.addressid = a.addressid;
 
 drop view vw_vaccination;
 create view vw_vaccination as
-select first_name, last_name, disease, date_taken, route, site, date_of_next
+select p.first_name, p.last_name, p.age, v.disease, vtn.date_taken, v.route, vtn.site, vtn.reason, vtn.date_of_next
 from patient p, vaccine v, vaccination vtn
 where p.patientid = vtn.patientid AND vtn.vaccineid = v.vaccineid;
 
@@ -83,13 +83,72 @@ where COUNT(*) > 1)
 ;
 
 --join and outer join
-
+select (last_name || ', ' || first_name) "Patient", v.disease, vtn.date_taken
+from PATIENT p, VACCINE v, VACCINATION vtn
+where v.diseaseid = 
+(select disease
+from vaccine v left outer join vaccination vtn
+ on v.diseaseid = vtn.diseaseid
+group by v.diseaseid)
+;
 
 
 --queries to insert, delete, or update data using savepoints
+INSERT into VDB_ADDRESS values
+(NULL,
+'500 Cornell Ave',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46224'
+);
 
+INSERT into VDB_ADDRESS values
+(NULL,
+'55 Fuller St',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46204'
+);
 
+savepoint A;
 
+INSERT into VDB_ADDRESS values
+(NULL,
+'333 Friar Circle',
+NULL,
+'INDIANAPOLIS',
+'IN',
+'US',
+'46224'
+);
+
+rollback to savepoint A;
+
+select * from VDB_ADDRESS;
+
+delete from VDB_ADDRESS where street = '55 Full St';
+
+select * from VDB_ADDRESS;
+
+rollback to savepoint A;
+
+select * from VDB_ADDRESS;
+
+--table from another table
+drop table patient_vaccination_record;
+create table patient_vaccination_record as
+select p.last_name, p.first_name, p.age,
+v.disease, vtn.date_taken, vtr.location_name,
+v.route, vtn.site, vtn.reason, vtn.date_of_next
+from patient p, vaccine v, vaccinator vtr, vaccination vtn
+where p.patientid = vtn.patientid 
+AND vtn.vaccineid = v.vaccineid 
+AND vtn.vaccinatorid = vtr.vaccinatorid
+;
 
 
 
@@ -97,29 +156,30 @@ where COUNT(*) > 1)
 
 
 --update with embedded select
-
+update patient_vaccination_record set reason =
+  (select reason
+    from vw_vaccination
+    where age<6)
+  where age < 6;
 
 
 --merge
+merge into PATIENT_VACCINATION_RECORD   PVR
+using (select last_name, first_name, age, reason from vw_vaccination) vw
+on (pvr.age = vw.age)
+when matched then
+  update set reason = vw.reason
+when not matched then
+  insert (pvr.last_name, pvr.first_name, pvr.age, pvr.reason)
+  values (vw.last_name, vw.first_name, vw.age, vw.reason)
+;
+
 
 --unique and check constraint
 --Constraint VACCINATION_PK PRIMARY KEY (VaccinationID),
 --Constraint VACCINATION_UQ UNIQUE (PatientID, VaccineID, VaccinatorID),
 --CHECK (VACCINATION_PK != NULL and VACCINATION_UQ != NULL)
 
-
---table from another table
-drop table patient_vaccination_record;
-create table patient_vaccination_record as
-select p.first_name, p.last_name, 
-v.disease, v.trade_name, v.manufacturer, 
-vtr.location_name, vtn.date_taken, 
-v.route, vtn.site, vtn.date_of_next
-from patient p, vaccine v, vaccinator vtr, vaccination vtn
-where p.patientid = vtn.patientid 
-AND vtn.vaccineid = v.vaccineid 
-AND vtn.vaccinatorid = vtr.vaccinatorid
-;
 
 
 --index
